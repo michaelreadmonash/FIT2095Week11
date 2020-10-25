@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import * as io from "socket.io-client";
+import { ChartType, ChartOptions } from 'chart.js';
+import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +17,23 @@ export class AppComponent {
     question: String,
     options: []
   };
+  labelOptions: Array<any> = []
+  valueOptions: Array<any> = []
+
+  pieChartOptions: ChartOptions = {
+    responsive: true,
+  };
+
+  pieChartLabels: Label[] = [];
+  pieChartData: SingleDataSet = [];
+  pieChartType: ChartType = 'bar';
+  pieChartLegend = true;
+  pieChartPlugins = [];
 
   constructor() {
     this.socket = io.connect();
+    monkeyPatchChartJsTooltip();
+    monkeyPatchChartJsLegend();
   }
 
   ngOnInit() {
@@ -26,8 +42,11 @@ export class AppComponent {
 
   listenToEvents() {
     this.socket.on('pollObjectEvent', data => {
-      this.pollObject.question = data.pollObject.question;
-      this.pollObject.options = data.pollObject.options
+
+      this.pollObject = data.pollObject;
+
+      this.pieChartData = data.values;
+      this.pieChartLabels = data.labels;
    })
   }
 
