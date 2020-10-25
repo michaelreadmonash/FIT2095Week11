@@ -25,8 +25,8 @@ export class AppComponent {
   };
 
   pieChartLabels: Label[] = [];
-  pieChartData: SingleDataSet = [];
-  pieChartType: ChartType = 'bar';
+  pieChartData: SingleDataSet = [0, 0, 0, 0, 0, 0, 0, 0];
+  pieChartType: ChartType = 'pie';
   pieChartLegend = true;
   pieChartPlugins = [];
 
@@ -45,7 +45,7 @@ export class AppComponent {
 
       this.pollObject = data.pollObject;
 
-      this.pieChartData = data.values;
+      this.pieChartData = data.values; 
       this.pieChartLabels = data.labels;
    })
   }
