@@ -1,23 +1,32 @@
-<form>
-  <div>
-    <input class="form-control" type="text" placeholder="{{pollObject.question}}" readonly>
-  </div>
-  <div class="form-check" *ngFor="let item of pollObject.options; let i = index;">
-    <input [(ngModel)]="selectedOption" class="form-check-input" type="radio" name="pollOption" id="pollOption" value={{item.text}}>
-    <label class="form-check-label" for="pollOption">
+<div class="container">
+
+  <nav id="question" class="navbar navbar-dark bg-primary">
+    <a class="navbar-brand">{{pollObject.question}}</a>
+  </nav>
+
+  <div class="navbar navbar-light bg-light" *ngFor="let item of pollObject.options;">
+    <input [(ngModel)]="selectedOption" class="navbar-brand" type="radio" name="pollOption" id="pollOption" value={{item.text}}>
+    <label class="navbar-brand" for="pollOption">
       {{item.text}}
     </label>
   </div>
-  <button type="button" class="btn btn-primary" (click)="sendVote()">Submit</button>
-</form>
 
-<div style="display: block">
-  <canvas baseChart
-  [data]='pieChartData'
-  [labels]='pieChartLabels'
-  [chartType]='pieChartType'
-  [options]='pieChartOptions'
-  [plugins]='pieChartPlugins'
-  [legend]='pieChartLegend'>
-</canvas>
+  <button type="button" class="btn btn-primary" (click)="sendVote()">Submit Vote</button>
+  
+  <h2>Results:</h2>
+
+  <div class="chart">
+    <canvas baseChart
+    [data]='pieChartData'
+    [labels]='pieChartLabels'
+    [chartType]='pieChartType'
+    [options]='pieChartOptions'
+    [plugins]='pieChartPlugins'
+    [legend]='pieChartLegend'>
+    </canvas>
+  </div>
+
 </div>
+
+
+
