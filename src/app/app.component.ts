@@ -20,6 +20,10 @@ export class AppComponent {
   labelOptions: Array<any> = []
   valueOptions: Array<any> = []
 
+  voteOption: String = 'Nothing Selected';
+  voteCount: Number = 0;
+
+
   pieChartOptions: ChartOptions = {
     responsive: true,
   };
@@ -38,6 +42,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.listenToEvents();
+    this.thankYouForVote();
   }
 
   listenToEvents() {
@@ -48,6 +53,14 @@ export class AppComponent {
       this.pieChartData = data.values; 
       this.pieChartLabels = data.labels;
    })
+  }
+
+  thankYouForVote() {
+    this.socket.on('voteMessageEvent', data => {
+      this.voteOption = data.voteOption;
+      this.voteCount = data.values;
+      //alert("Thank you for voting for: " + data.voteOption + " There are now " + data.values + " votes for: " + data.voteOption);
+    })
   }
 
   sendVote() {

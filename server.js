@@ -34,7 +34,9 @@ io.on('connection', socket => {
         incrementPoll(data);
         console.log('user ' + socket.id + ' voted for: ', data)
         io.sockets.emit('pollObjectEvent', { pollObject: pollObj, labels: getLabels(), values: getValues() } );
+        socket.emit('voteMessageEvent', { voteOption: data, values: getCount(data) });
     })
+
 })
 
 //server listening on port 8080
@@ -70,4 +72,14 @@ function getValues() {
     }
     //console.log(values)
     return values
+}
+
+function getCount(voteName) {
+    let value = 0;
+    for ( let i = 0; i < pollObj.options.length; i++ ) {
+        if ( voteName == pollObj.options[i].text ) {
+            value = pollObj.options[i].count;
+        }
+    }
+    return value;
 }
